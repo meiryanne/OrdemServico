@@ -4,20 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ClienteRequest;
 use App\Repositories\ClienteRepository;
+use App\Repositories\TipoLogradouroRepository;
+use App\Repositories\UnidadeFederacaoRepository;
 use Illuminate\Http\Request;
 use Auth;
 
 class ClienteController extends Controller
 {
     private  $clienteRepository;
+    private  $tipoLogradouroRepository;
+    private  $unidadeFederacaoRepository;
 
     /**
      * Create a new controller instance.
      */
-    public function __construct(ClienteRepository $clienteRepository)
+    public function __construct(ClienteRepository $clienteRepository,
+                                TipoLogradouroRepository $tipoLogradouroRepository,
+                                UnidadeFederacaoRepository $unidadeFederacaoRepository)
     {
         $this->middleware('auth');
         $this->clienteRepository = $clienteRepository;
+        $this->tipoLogradouroRepository = $tipoLogradouroRepository;
+        $this->unidadeFederacaoRepository = $unidadeFederacaoRepository;
     }
 
     /**
@@ -38,7 +46,10 @@ class ClienteController extends Controller
      */
     public function getCreate()
     {
-        return view('cliente.create');
+        return view('cliente.create', [
+            'tiposlogradouro' => $this->tipoLogradouroRepository->lists('cod_tl', 'descricao'),
+            'estados' => $this->unidadeFederacaoRepository->lists('cod_uf', 'nome')
+        ]);
     }
 
     /**
@@ -72,11 +83,12 @@ class ClienteController extends Controller
     public function getEdit($id)
     {
         try{
-
             $cliente = $this->clienteRepository->find($id);
 
             return view('cliente.edit', [
-                'cliente' => $cliente
+                'cliente' => $cliente,
+                'tiposlogradouro' => $this->tipoLogradouroRepository->lists('cod_tl', 'descricao'),
+                'estados' => $this->unidadeFederacaoRepository->lists('cod_uf', 'nome')
             ]);
 
         }  catch (\Exception $e) {

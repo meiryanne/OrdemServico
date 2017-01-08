@@ -24,7 +24,17 @@ class ClienteRequest extends FormRequest
     public function rules()
     {
         return [
-            'nome' => 'required|min:3'
+            'nome'           => 'required|min:3',
+            'email'          => 'required|email',
+            'tipoemail'      => 'required',
+            'tipologradouro' => 'required',
+            'logradouro'     => 'required',
+            'numero'         => 'required',
+            'bairro'         => 'required',
+            'cidade'         => 'required',
+            'estado'         => 'required',
+            'complemento'    => 'required',
+            'tipoendereco'   => 'required',
         ];
     }
 }

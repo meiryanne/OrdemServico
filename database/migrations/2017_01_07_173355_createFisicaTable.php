@@ -18,8 +18,8 @@ class CreateFisicaTable extends Migration
 
             $table->integer('cod_cl')->unsigned();
 
-            $table->string('cpf')->unique();
-            $table->string('rg')->unique();
+            $table->string('cpf')->unique()->default('');
+            $table->string('rg')->unique()->default('');
 
             $table->foreign('cod_cl')->references('cod_cl')->on('cliente');
             $table->timestamps();

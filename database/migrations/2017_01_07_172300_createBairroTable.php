@@ -15,7 +15,7 @@ class CreateBairroTable extends Migration
     {
         Schema::create('bairro', function (Blueprint $table) {
             $table->increments('cod_br');
-            $table->string('descricao');
+            $table->string('descricao')->default('');
             $table->timestamps();
         });
     }

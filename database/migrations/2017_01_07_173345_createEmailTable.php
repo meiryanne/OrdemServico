@@ -8,7 +8,6 @@ class CreateEmailTable extends Migration
 {
     /**
      * Run the migrations.
-     *
      * @return void
      */
     public function up()
@@ -16,8 +15,8 @@ class CreateEmailTable extends Migration
         Schema::create('email', function (Blueprint $table) {
             $table->increments('cod_em');
             $table->integer('cod_cl')->unsigned();
-            $table->string('endereco')->unique();
-            $table->string('tipo');
+            $table->string('endereco')->unique()->default('');
+            $table->string('tipo')->default('');
 
             $table->timestamps();
         });
