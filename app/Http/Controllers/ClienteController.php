@@ -3,7 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ClienteRequest;
+use App\Models\PessoaFisica;
+use App\Models\PessoaJuridica;
+use App\Repositories\BairroRepository;
+use App\Repositories\CidadeRepository;
 use App\Repositories\ClienteRepository;
+use App\Repositories\EmailRepository;
+use App\Repositories\EnderecoRepository;
+use App\Repositories\LogradouroRepository;
+use App\Repositories\PessoaFisicaRepository;
+use App\Repositories\PessoaJuridicaRepository;
+use App\Repositories\TelefoneRepository;
 use App\Repositories\TipoLogradouroRepository;
 use App\Repositories\UnidadeFederacaoRepository;
 use Illuminate\Http\Request;
@@ -14,18 +24,42 @@ class ClienteController extends Controller
     private  $clienteRepository;
     private  $tipoLogradouroRepository;
     private  $unidadeFederacaoRepository;
+    private  $enderecoRepository;
+    private  $bairroRepository;
+    private  $logradouroRepository;
+    private  $cidadeRepository;
+    private  $emailRepository;
+    private  $telefoneRepository;
+    private  $pessoaFisicaRepository;
+    private  $pessoaJuridicaRepository;
 
     /**
      * Create a new controller instance.
      */
     public function __construct(ClienteRepository $clienteRepository,
                                 TipoLogradouroRepository $tipoLogradouroRepository,
-                                UnidadeFederacaoRepository $unidadeFederacaoRepository)
+                                UnidadeFederacaoRepository $unidadeFederacaoRepository,
+                                EnderecoRepository $enderecoRepository,
+                                BairroRepository $bairroRepository,
+                                LogradouroRepository $logradouroRepository,
+                                CidadeRepository $cidadeRepository,
+                                EmailRepository $emailRepository,
+                                TelefoneRepository $telefoneRepository,
+                                PessoaFisicaRepository $pessoaFisicaRepository,
+                                PessoaJuridicaRepository $pessoaJuridicaRepository)
     {
         $this->middleware('auth');
         $this->clienteRepository = $clienteRepository;
         $this->tipoLogradouroRepository = $tipoLogradouroRepository;
         $this->unidadeFederacaoRepository = $unidadeFederacaoRepository;
+        $this->enderecoRepository = $enderecoRepository;
+        $this->bairroRepository = $bairroRepository;
+        $this->logradouroRepository = $logradouroRepository;
+        $this->cidadeRepository = $cidadeRepository;
+        $this->emailRepository = $emailRepository;
+        $this->telefoneRepository = $telefoneRepository;
+        $this->pessoaFisicaRepository = $pessoaFisicaRepository;
+        $this->pessoaJuridicaRepository = $pessoaJuridicaRepository;
     }
 
     /**
@@ -83,10 +117,66 @@ class ClienteController extends Controller
     public function getEdit($id)
     {
         try{
+            $data = [];
+
             $cliente = $this->clienteRepository->find($id);
 
+            $data['cod_cl'] = $cliente->cod_cl;
+            $data['nome'] = $cliente->nome;
+
+            $endereco = $this->enderecoRepository->find($id);
+
+            $data['numero'] = $endereco->numero;
+            $data['complemento'] = $endereco->complemento;
+            $data['tipoendereco'] = $endereco->tipo_endereco;
+            $data['tipologradouro'] = $endereco->cod_tl;
+
+            $bairro = $this->bairroRepository->find($endereco->cod_br);
+
+            $data['bairro'] = $bairro->descricao;
+
+            $logradouro = $this->logradouroRepository->find($endereco->cod_lg);
+
+            $data['logradouro'] = $logradouro->descricao;
+
+            $cidade = $this->cidadeRepository->find($endereco->cod_cd);
+
+            $data['estado'] = $cidade->cod_uf;
+            $data['cidade'] = $cidade->nome;
+
+            $email = $this->emailRepository->find($id);
+
+            $data['email'] = $email->endereco;
+            $data['tipoemail'] = $email->tipo;
+
+            $telefone = $this->telefoneRepository->find($id);
+
+            $data['telefone'] = $telefone->numero;
+            $data['tipotelefone'] = $telefone->tipo;
+            $data['descricaotelefone'] = $telefone->descricao;
+
+            $pessoa = $this->pessoaFisicaRepository->find($id);
+
+            if(is_null($pessoa)){
+
+                $pessoa = $this->pessoaJuridicaRepository->find($id);
+
+                $data['inscricaoestadual'] = $pessoa->inscricao_estadual;
+                $data['tipopessoa'] = 1;
+
+                return view('cliente.edit', [
+                    'cliente' => $data,
+                    'tiposlogradouro' => $this->tipoLogradouroRepository->lists('cod_tl', 'descricao'),
+                    'estados' => $this->unidadeFederacaoRepository->lists('cod_uf', 'nome')
+                ]);
+            }
+
+            $data['rg'] = $pessoa->rg;
+            $data['cpf'] = $pessoa->cpf;
+            $data['tipopessoa'] = 0;
+
             return view('cliente.edit', [
-                'cliente' => $cliente,
+                'cliente' => $data,
                 'tiposlogradouro' => $this->tipoLogradouroRepository->lists('cod_tl', 'descricao'),
                 'estados' => $this->unidadeFederacaoRepository->lists('cod_uf', 'nome')
             ]);

@@ -10,4 +10,10 @@ class EmailRepository extends Repository
     {
         $this->model = $email;
     }
+
+    public function find($id)
+    {
+        return $this->model->where('cod_cl', $id)->first();
+    }
+
 }

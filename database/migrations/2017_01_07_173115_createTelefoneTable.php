@@ -16,9 +16,9 @@ class CreateTelefoneTable extends Migration
         Schema::create('telefone', function (Blueprint $table) {
             $table->increments('cod_tf');
             $table->integer('cod_cl')->unsigned();
-            $table->string('descricao', 45)->default('');
-            $table->string('numero', 20)->default('');
-            $table->string('tipo', 20)->default('');
+            $table->string('descricao', 45);
+            $table->string('numero', 20);
+            $table->string('tipo', 20);
 
             $table->foreign('cod_cl')->references('cod_cl')->on('cliente');
 

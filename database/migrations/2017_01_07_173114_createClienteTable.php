@@ -15,7 +15,7 @@ class CreateClienteTable extends Migration
     {
         Schema::create('cliente', function (Blueprint $table) {
             $table->increments('cod_cl');
-            $table->string('nome')->default('');
+            $table->string('nome');
             $table->timestamps();
         });
     }

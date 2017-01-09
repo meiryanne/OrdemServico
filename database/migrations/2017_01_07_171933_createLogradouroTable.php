@@ -15,7 +15,7 @@ class CreateLogradouroTable extends Migration
     {
         Schema::create('logradouro', function (Blueprint $table) {
             $table->increments('cod_lg');
-            $table->string('descricao')->default('');
+            $table->string('descricao');
             $table->timestamps();
         });
     }

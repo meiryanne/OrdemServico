@@ -16,7 +16,7 @@ class CreateCidadeTable extends Migration
         Schema::create('cidade', function (Blueprint $table) {
             $table->increments('cod_cd');
             $table->integer('cod_uf')->unsigned();
-            $table->string('nome')->default('');
+            $table->string('nome');
 
             $table->foreign('cod_uf')->references('cod_uf')->on('unidade_federacao');
             $table->timestamps();

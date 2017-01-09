@@ -19,8 +19,8 @@
         </div><!-- /.box-header -->
         <div class="box-body">
             <div class="container-fluid">
-                {!! Form::model($cliente, ['url' => route('cliente.putEdit', ['id' => $cliente->cod_cl]), 'method' => 'PUT']) !!}
-                @include('cliente.includes.form')
+                {!! Form::open(['url' => route('cliente.putEdit', ['id' => $cliente['cod_cl']]), 'method' => 'PUT']) !!}
+                    @include('cliente.includes.formedit')
                 {!! Form::close() !!}
             </div>
         </div><!-- /.box-body -->

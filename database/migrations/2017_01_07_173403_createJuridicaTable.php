@@ -18,7 +18,7 @@ class CreateJuridicaTable extends Migration
 
             $table->integer('cod_cl')->unsigned();
 
-            $table->string('inscricao_estadual')->unique()->default('');
+            $table->string('inscricao_estadual')->unique();
 
             $table->foreign('cod_cl')->references('cod_cl')->on('cliente');
             $table->timestamps();

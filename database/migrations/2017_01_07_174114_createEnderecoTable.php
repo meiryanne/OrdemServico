@@ -22,9 +22,9 @@ class CreateEnderecoTable extends Migration
             $table->integer('cod_tl')->unsigned();
             $table->integer('cod_lg')->unsigned();
 
-            $table->string('numero')->default('');
-            $table->string('complemento')->default('');
-            $table->string('tipo_endereco')->default('');
+            $table->string('numero');
+            $table->string('complemento');
+            $table->string('tipo_endereco');
 
             $table->foreign('cod_cl')->references('cod_cl')->on('cliente');
             $table->foreign('cod_cd')->references('cod_cd')->on('cidade');

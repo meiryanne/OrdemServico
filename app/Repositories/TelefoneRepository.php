@@ -10,4 +10,9 @@ class TelefoneRepository extends Repository
     {
         $this->model = $telefone;
     }
+
+    public function find($id)
+    {
+        return $this->model->where('cod_cl', $id)->first();
+    }
 }

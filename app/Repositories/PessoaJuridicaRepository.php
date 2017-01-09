@@ -10,4 +10,9 @@ class PessoaJuridicaRepository extends Repository
     {
         $this->model = $pessoaJuridica;
     }
+
+    public function find($id)
+    {
+        return $this->model->where('cod_cl', $id)->first();
+    }
 }

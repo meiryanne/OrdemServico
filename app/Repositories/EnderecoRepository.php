@@ -10,4 +10,9 @@ class EnderecoRepository extends Repository
     {
         $this->model = $endereco;
     }
+
+    public function find($id)
+    {
+        return $this->model->where('cod_cl', $id)->first();
+    }
 }

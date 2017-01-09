@@ -36,8 +36,8 @@ class ClienteRepository extends Repository
         try{
 
             $cliente    = $this->model->create(array('nome' => $data['nome']));
-            $logradouro = $logradouroRepository->create(array('logradouro' => $data['logradouro']));
-            $bairro     = $bairroRepository->create(array('bairro' => $data['bairro']));
+            $logradouro = $logradouroRepository->create(array('descricao' => $data['logradouro']));
+            $bairro     = $bairroRepository->create(array('descricao' => $data['bairro']));
             $cidade     = $cidadeRepository->create(array('cod_uf' => $data['estado'], 'nome' => $data['cidade']));
 
             $emailData  = [

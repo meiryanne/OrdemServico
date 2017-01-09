@@ -17,7 +17,7 @@ class CreateProdutoServicoTable extends Migration
             $table->increments('cod_ps');
 
             $table->string('nome')->default('');
-            $table->string('descricao')->default('');
+            $table->string('descricao');
             $table->float('preco');
             $table->enum('definicao', ['servico', 'produto']);
 
