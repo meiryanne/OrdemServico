@@ -101,5 +101,4 @@ class ClienteRepository extends Repository
             }
         }
     }
-
 }

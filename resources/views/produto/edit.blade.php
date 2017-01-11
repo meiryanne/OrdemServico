@@ -1,26 +1,26 @@
 @extends('templates.base')
 
 @section('PageTitle')
-    Cadastro de Cliente
+    Edição de Produto
 @endsection
 
 @section('Title')
-    Cliente
+    Produto
 @endsection
 
 @section('Subtitle')
-    Cadastro de novo cliente
+    Dados de produto
 @endsection
 
 @section('Content')
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title">Novo Cliente</h3>
+            <h3 class="box-title">Informações do produto</h3>
         </div><!-- /.box-header -->
         <div class="box-body">
             <div class="container-fluid">
-                {!! Form::open(['url' => route('cliente.postCreate'), 'method' => 'post']) !!}
-                @include('cliente.includes.form')
+                {!! Form::model($produto, ['url' => route('produto.putEdit', ['id' => $produto['cod_ps']]), 'method' => 'PUT']) !!}
+                    @include('produto.includes.form')
                 {!! Form::close() !!}
             </div>
         </div><!-- /.box-body -->

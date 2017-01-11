@@ -23,7 +23,16 @@ Route::group(['prefix' => 'cliente'], function (){
     Route::get('/', 'ClienteController@index')->name('cliente.index');
     Route::get('/create', 'ClienteController@getCreate')->name('cliente.getCreate');
     Route::post('/create', 'ClienteController@postCreate')->name('cliente.postCreate');
-    Route::get('/edit/{id}', 'ClienteController@getEdit')->name('cliente.getEdit');
-    Route::put('/edit/{id}', 'ClienteController@putEdit')->name('cliente.putEdit');
+    Route::get('/view/{id}', 'ClienteController@getView')->name('cliente.getView');
     Route::delete('/delete', 'ClienteController@delete')->name('cliente.delete');
 });
+
+Route::group(['prefix' => 'produto'], function (){
+    Route::get('/', 'ProdutoController@index')->name('produto.index');
+    Route::get('/create', 'ProdutoController@getCreate')->name('produto.getCreate');
+    Route::post('/create', 'ProdutoController@postCreate')->name('produto.postCreate');
+    Route::get('/edit/{id}', 'ProdutoController@getEdit')->name('produto.getEdit');
+    Route::put('/edit/{id}', 'ProdutoController@putEdit')->name('produto.putEdit');
+    Route::delete('/delete', 'ProdutoController@delete')->name('produto.delete');
+});
+

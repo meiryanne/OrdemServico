@@ -9,17 +9,17 @@
 @endsection
 
 @section('Subtitle')
-    Edição de cliente
+    Dados de cliente
 @endsection
 
 @section('Content')
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title">Editar cliente</h3>
+            <h3 class="box-title">Informações do cliente</h3>
         </div><!-- /.box-header -->
         <div class="box-body">
             <div class="container-fluid">
-                {!! Form::open(['url' => route('cliente.putEdit', ['id' => $cliente['cod_cl']]), 'method' => 'PUT']) !!}
+                {!! Form::open(['url' => route('cliente.getView', ['id' => $cliente['cod_cl']]), 'method' => 'GET']) !!}
                     @include('cliente.includes.formedit')
                 {!! Form::close() !!}
             </div>

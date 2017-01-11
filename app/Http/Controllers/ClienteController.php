@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ClienteRequest;
-use App\Models\PessoaFisica;
-use App\Models\PessoaJuridica;
 use App\Repositories\BairroRepository;
 use App\Repositories\CidadeRepository;
 use App\Repositories\ClienteRepository;
@@ -114,7 +112,7 @@ class ClienteController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      * @throws \Exception
      */
-    public function getEdit($id)
+    public function getView($id)
     {
         try{
             $data = [];
@@ -182,31 +180,6 @@ class ClienteController extends Controller
             ]);
 
         }  catch (\Exception $e) {
-            if (env('APP_DEBUG') == true) {
-                throw $e;
-            }
-
-            return redirect()->back();
-        }
-    }
-
-    /**
-     * Edita um registro de cliente no banco
-     * @param $id
-     * @param ClienteRequest $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws \Exception
-     */
-    public function putEdit($id, ClienteRequest $request)
-    {
-        try {
-
-            $dados = $request->only($this->clienteRepository->getFillableModelFields());
-            $this->clienteRepository->update($dados, $id);
-
-            return redirect(route('cliente.index'));
-
-        } catch (\Exception $e) {
             if (env('APP_DEBUG') == true) {
                 throw $e;
             }

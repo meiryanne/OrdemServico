@@ -1,24 +1,24 @@
 @extends('templates.base')
 
 @section('PageTitle')
-    Clientes
+    Produtos
 @endsection
 
 @section('Title')
-    Clientes
+    Produtos
 @endsection
 
 @section('Subtitle')
-    Gerenciamento de Clientes
+    Gerenciamento de Produtos
 @endsection
 
 @section('SearchForm')
-    @searchForm(nome,Nome,cliente.index)
+    @searchForm(nome,Nome,produto.index)
 @endsection
 
 @section('Button')
-    <form method="get" action="{{ route('cliente.getCreate') }}">
-        <button type="submit" class="btn btn-flat bg-green"><i class="fa fa-plus"></i> Adicionar Cliente</button>
+    <form method="get" action="{{ route('produto.getCreate') }}">
+        <button type="submit" class="btn btn-flat bg-green"><i class="fa fa-plus"></i> Adicionar Produto</button>
     </form>
 @endsection
 
@@ -31,36 +31,46 @@
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th style="width: 70px;">@orderButton(order-link,cod_cl,#ID)</th>
+                                <th style="width: 70px;">@orderButton(order-link,cod_ps,#ID)</th>
                                 <th>@orderButton(order-link,nome,Nome)</th>
+                                <th>Descrição</th>
+                                <th>Preço</th>
+                                <th>Definição</th>
                                 <th style="width: 250px;">Ações</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($clientes as $cliente)
+                            @foreach($produtos as $produto)
                                 <tr>
-                                    <td>{{ $cliente->cod_cl }}</td>
-                                    <td>{{ $cliente->nome}}</td>
-                                    <td class="form-inline">
+                                    <td>{{ $produto->cod_ps }}</td>
+                                    <td>{{ $produto->nome}}</td>
+                                    <td>{{ $produto->descricao}}</td>
+                                    <td>{{ $produto->preco}}</td>
+                                    @if($produto->definicao == 'servico')
+                                        <td>Serviço</td>
+                                    @else
+                                        <td>Produto</td>
+                                    @endif
+                                        <td class="form-inline">
                                         <div class="form-group">
                                             <form method="get"
-                                                  action="{{ route('cliente.getView', ['id' => $cliente->cod_cl]) }}"
+                                                  action="{{ route('produto.getEdit', ['id' => $produto->cod_ps]) }}"
                                                   role="form"
                                                   id="form-edit">
-                                                <button type="submit" class="btn bg-blue btn-sm">
-                                                    <i class="fa fa-eye"></i> Visualizar
+                                                <button type="submit" class="btn bg-green btn-sm">
+                                                    <i class="fa fa-pencil"></i> Editar
                                                 </button>
                                             </form>
                                         </div>
                                         <div class="form-group">
                                             <form method="post"
-                                                  action="{{ route('cliente.delete') }}"
+                                                  action="{{ route('produto.delete') }}"
                                                   role="form"
                                                   id="form-delete">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
                                                 <input type="hidden" name="id"
-                                                       value="{{ $cliente->cod_cl }}">
+                                                       value="{{ $produto->cod_ps }}">
                                                 <button type="submit" class="btn bg-red btn-sm">
                                                     <i class="fa fa-trash-o"></i> Excluir
                                                 </button>
@@ -81,6 +91,6 @@
 @endsection
 
 @section('Paginate')
-    {{ $clientes->render() }}
+    {{ $produtos->render() }}
 @endsection
 
