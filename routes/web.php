@@ -36,3 +36,12 @@ Route::group(['prefix' => 'produto'], function (){
     Route::delete('/delete', 'ProdutoController@delete')->name('produto.delete');
 });
 
+Route::group(['prefix' => 'orcamento'], function (){
+    Route::get('/', 'OrcamentoController@index')->name('orcamento.index');
+    Route::get('/create', 'OrcamentoController@getCreate')->name('orcamento.getCreate');
+    Route::post('/create', 'OrcamentoController@postCreate')->name('orcamento.postCreate');
+    Route::get('/edit/{id}', 'OrcamentoController@getEdit')->name('orcamento.getEdit');
+    Route::put('/edit/{id}', 'OrcamentoController@putEdit')->name('orcamento.putEdit');
+    Route::delete('/delete', 'OrcamentoController@delete')->name('orcamento.delete');
+});
+

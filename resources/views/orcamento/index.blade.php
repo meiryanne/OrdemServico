@@ -1,24 +1,20 @@
 @extends('templates.base')
 
 @section('PageTitle')
-    Produtos
+    Orçamentos
 @endsection
 
 @section('Title')
-    Produtos
+    Orçamentos
 @endsection
 
 @section('Subtitle')
-    Gerenciamento de Produtos
-@endsection
-
-@section('SearchForm')
-    @searchForm(nome,Nome,produto.index)
+    Gerenciamento de Orçamentos
 @endsection
 
 @section('Button')
-    <form method="get" action="{{ route('produto.getCreate') }}">
-        <button type="submit" class="btn btn-flat bg-green"><i class="fa fa-plus"></i> Adicionar Produto</button>
+    <form method="get" action="{{ route('orcamento.getCreate') }}">
+        <button type="submit" class="btn btn-flat bg-green"><i class="fa fa-plus"></i> Adicionar Orçamento</button>
     </form>
 @endsection
 
@@ -31,30 +27,21 @@
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th style="width: 70px;">@orderButton(order-link,cod_ps,#ID)</th>
-                                <th>@orderButton(order-link,nome,Nome)</th>
-                                <th>Descrição</th>
-                                <th>Preço</th>
-                                <th>Definição</th>
+                                <th style="width: 70px;">@orderButton(order-link,cod_or,#ID)</th>
+                                <th>@orderButton(order-link,cliente,Cliente)</th>
+                                <th>Data</th>
+                                <th>Valor</th>
                                 <th style="width: 250px;">Ações</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($produtos as $produto)
+                            @foreach($orcamentos as $orcamento)
                                 <tr>
-                                    <td>{{ $produto->cod_ps }}</td>
-                                    <td>{{ $produto->nome}}</td>
-                                    <td>{{ $produto->descricao}}</td>
-                                    <td>R$ {{ $produto->preco}}</td>
-                                    @if($produto->definicao == 'servico')
-                                        <td>Serviço</td>
-                                    @else
-                                        <td>Produto</td>
-                                    @endif
-                                        <td class="form-inline">
+                                    <td>{{ $orcamento->cod_ps }}</td>
+                                    <td class="form-inline">
                                         <div class="form-group">
                                             <form method="get"
-                                                  action="{{ route('produto.getEdit', ['id' => $produto->cod_ps]) }}"
+                                                  action="{{ route('orcamento.getEdit', ['id' => $orcamento->cod_ps]) }}"
                                                   role="form"
                                                   id="form-edit">
                                                 <button type="submit" class="btn bg-green btn-sm">
@@ -64,13 +51,13 @@
                                         </div>
                                         <div class="form-group">
                                             <form method="post"
-                                                  action="{{ route('produto.delete') }}"
+                                                  action="{{ route('orcamento.delete') }}"
                                                   role="form"
                                                   id="form-delete">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
                                                 <input type="hidden" name="id"
-                                                       value="{{ $produto->cod_ps }}">
+                                                       value="{{ $orcamento->cod_ps }}">
                                                 <button type="submit" class="btn bg-red btn-sm">
                                                     <i class="fa fa-trash-o"></i> Excluir
                                                 </button>
@@ -91,6 +78,6 @@
 @endsection
 
 @section('Paginate')
-    {{ $produtos->render() }}
+    {{ $orcamentos->render() }}
 @endsection
 

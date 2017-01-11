@@ -2,33 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\ProdutoServicoRepository;
+use App\Repositories\OrcamentoRepository;
 use Illuminate\Http\Request;
 use Auth;
 
-class ProdutoController extends Controller
+class OrcamentoController extends Controller
 {
 
-    private $produtoServicoRepository;
+    private $orcamentoRepository;
 
     /**
      * Create a new controller instance.
      */
-    public function __construct(ProdutoServicoRepository $produtoServicoRepository)
+    public function __construct(OrcamentoRepository $orcamentoRepository)
     {
         $this->middleware('auth');
-        $this->produtoServicoRepository = $produtoServicoRepository;
+        $this->orcamentoRepository = $orcamentoRepository;
     }
 
     /**
-     * Index de produtos
+     * Index de Orcamento
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
-        return view('produto.index', [
-            'produtos' => $this->produtoServicoRepository->paginateRequest($request->all())
+        return view('orcamento.index', [
+            'orcamentos' => $this->orcamentoRepository->paginateRequest($request->all())
         ]);
     }
 
@@ -42,7 +42,7 @@ class ProdutoController extends Controller
     }
 
     /**
-     * Cria um novo produto no banco
+     * Cria um novo cliente no banco
      * @param Request $request
      * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
@@ -95,7 +95,7 @@ class ProdutoController extends Controller
     }
 
     /**
-     * Exclui um registro de produto no banco
+     * Exclui um registro de cliente no banco
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception

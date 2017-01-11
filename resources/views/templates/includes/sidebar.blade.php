@@ -11,6 +11,11 @@
                     <i class="fa fa-cubes"></i><span> Produtos</span>
                 </a>
             </li>
+            <li class="treeview">
+                <a href="{{ route('orcamento.index') }}">
+                    <i class="fa fa-list"></i><span> Orçamentos</span>
+                </a>
+            </li>
         </ul>
     </section>
     <!-- /.sidebar -->
