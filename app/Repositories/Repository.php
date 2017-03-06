@@ -5,7 +5,7 @@ namespace App\Repositories;
 /**
  * Class Repository
  * @package App\Repositories
- * @author Lucas S. Vieira
+ * @author Meiryanne Martins
  */
 abstract class Repository implements RepositoryInterface
 {

@@ -20,7 +20,7 @@ class CreateTelefoneTable extends Migration
             $table->string('numero', 20);
             $table->string('tipo', 20);
 
-            $table->foreign('cod_cl')->references('cod_cl')->on('cliente');
+            $table->foreign('cod_cl')->references('cod_cl')->on('cliente')->onDelete('cascade');
 
             $table->timestamps();
         });

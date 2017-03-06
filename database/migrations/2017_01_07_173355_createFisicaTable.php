@@ -21,7 +21,7 @@ class CreateFisicaTable extends Migration
             $table->string('cpf')->unique();
             $table->string('rg')->unique();
 
-            $table->foreign('cod_cl')->references('cod_cl')->on('cliente');
+            $table->foreign('cod_cl')->references('cod_cl')->on('cliente')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -20,7 +20,7 @@ class CreateJuridicaTable extends Migration
 
             $table->string('inscricao_estadual')->unique();
 
-            $table->foreign('cod_cl')->references('cod_cl')->on('cliente');
+            $table->foreign('cod_cl')->references('cod_cl')->on('cliente')->onDelete('cascade');
             $table->timestamps();
         });
     }

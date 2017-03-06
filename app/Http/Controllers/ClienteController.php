@@ -19,17 +19,17 @@ use Auth;
 
 class ClienteController extends Controller
 {
-    private  $clienteRepository;
-    private  $tipoLogradouroRepository;
-    private  $unidadeFederacaoRepository;
-    private  $enderecoRepository;
-    private  $bairroRepository;
-    private  $logradouroRepository;
-    private  $cidadeRepository;
-    private  $emailRepository;
-    private  $telefoneRepository;
-    private  $pessoaFisicaRepository;
-    private  $pessoaJuridicaRepository;
+    private $clienteRepository;
+    private $tipoLogradouroRepository;
+    private $unidadeFederacaoRepository;
+    private $enderecoRepository;
+    private $bairroRepository;
+    private $logradouroRepository;
+    private $cidadeRepository;
+    private $emailRepository;
+    private $telefoneRepository;
+    private $pessoaFisicaRepository;
+    private $pessoaJuridicaRepository;
 
     /**
      * Create a new controller instance.
@@ -93,10 +93,8 @@ class ClienteController extends Controller
     public function postCreate(ClienteRequest $request)
     {
         try {
-
             $this->clienteRepository->create($request->all());
             return redirect(route('cliente.index'));
-
         } catch (\Exception $e) {
             if (env('APP_DEBUG') == true) {
                 throw $e;
@@ -112,9 +110,9 @@ class ClienteController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      * @throws \Exception
      */
-    public function getView($id)
+    public function getEdit($id)
     {
-        try{
+        try {
             $data = [];
 
             $cliente = $this->clienteRepository->find($id);
@@ -155,8 +153,7 @@ class ClienteController extends Controller
 
             $pessoa = $this->pessoaFisicaRepository->find($id);
 
-            if(is_null($pessoa)){
-
+            if (is_null($pessoa)) {
                 $pessoa = $this->pessoaJuridicaRepository->find($id);
 
                 $data['inscricaoestadual'] = $pessoa->inscricao_estadual;
@@ -178,8 +175,81 @@ class ClienteController extends Controller
                 'tiposlogradouro' => $this->tipoLogradouroRepository->lists('cod_tl', 'descricao'),
                 'estados' => $this->unidadeFederacaoRepository->lists('cod_uf', 'nome')
             ]);
+        } catch (\Exception $e) {
+            if (env('APP_DEBUG') == true) {
+                throw $e;
+            }
 
-        }  catch (\Exception $e) {
+            return redirect()->back();
+        }
+    }
+
+    public function get($id)
+    {
+        try {
+            $data = [];
+
+            $cliente = $this->clienteRepository->find($id);
+
+            $data['cod_cl'] = $cliente->cod_cl;
+            $data['nome'] = $cliente->nome;
+
+            $endereco = $this->enderecoRepository->find($id);
+
+            $data['numero'] = $endereco->numero;
+            $data['complemento'] = $endereco->complemento;
+            $data['tipoendereco'] = $endereco->tipo_endereco;
+            $data['tipologradouro'] = $endereco->cod_tl;
+
+            $bairro = $this->bairroRepository->find($endereco->cod_br);
+
+            $data['bairro'] = $bairro->descricao;
+
+            $logradouro = $this->logradouroRepository->find($endereco->cod_lg);
+
+            $data['logradouro'] = $logradouro->descricao;
+
+            $cidade = $this->cidadeRepository->find($endereco->cod_cd);
+
+            $data['estado'] = $cidade->cod_uf;
+            $data['cidade'] = $cidade->nome;
+
+            $email = $this->emailRepository->find($id);
+
+            $data['email'] = $email->endereco;
+            $data['tipoemail'] = $email->tipo;
+
+            $telefone = $this->telefoneRepository->find($id);
+
+            $data['telefone'] = $telefone->numero;
+            $data['tipotelefone'] = $telefone->tipo;
+            $data['descricaotelefone'] = $telefone->descricao;
+
+            $pessoa = $this->pessoaFisicaRepository->find($id);
+
+            if (is_null($pessoa)) {
+                $pessoa = $this->pessoaJuridicaRepository->find($id);
+
+                $data['inscricaoestadual'] = $pessoa->inscricao_estadual;
+                $data['tipopessoa'] = 1;
+
+                return view('cliente.show', [
+                    'cliente' => $data,
+                    'tiposlogradouro' => $this->tipoLogradouroRepository->lists('cod_tl', 'descricao'),
+                    'estados' => $this->unidadeFederacaoRepository->lists('cod_uf', 'nome')
+                ]);
+            }
+
+            $data['rg'] = $pessoa->rg;
+            $data['cpf'] = $pessoa->cpf;
+            $data['tipopessoa'] = 0;
+
+            return view('cliente.show', [
+                'cliente' => $data,
+                'tiposlogradouro' => $this->tipoLogradouroRepository->lists('cod_tl', 'descricao'),
+                'estados' => $this->unidadeFederacaoRepository->lists('cod_uf', 'nome')
+            ]);
+        } catch (\Exception $e) {
             if (env('APP_DEBUG') == true) {
                 throw $e;
             }

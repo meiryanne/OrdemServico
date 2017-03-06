@@ -21,7 +21,7 @@ class CreateOrcamentoTable extends Migration
             $table->date('data');
             $table->float('valor')->default(0);
 
-            $table->foreign('cod_cl')->references('cod_cl')->on('cliente');
+            $table->foreign('cod_cl')->references('cod_cl')->on('cliente')->onDelete('cascade');
 
             $table->timestamps();
         });

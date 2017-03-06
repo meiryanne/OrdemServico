@@ -25,7 +25,9 @@ Route::group(['prefix' => 'cliente'], function (){
     Route::get('/', 'ClienteController@index')->name('cliente.index');
     Route::get('/create', 'ClienteController@getCreate')->name('cliente.getCreate');
     Route::post('/create', 'ClienteController@postCreate')->name('cliente.postCreate');
-    Route::get('/view/{id}', 'ClienteController@getView')->name('cliente.getView');
+    Route::get('/edit/{id}', 'ClienteController@getEdit')->name('cliente.getView');
+    Route::get('/view/{id}', 'ClienteController@get')->name('cliente.get');
+    Route::put('/edit/{id}', 'ClienteController@putEdit')->name('cliente.edit');
     Route::delete('/delete', 'ClienteController@delete')->name('cliente.delete');
 });
 
@@ -46,4 +48,3 @@ Route::group(['prefix' => 'orcamento'], function (){
     Route::put('/edit/{id}', 'OrcamentoController@putEdit')->name('orcamento.putEdit');
     Route::delete('/delete', 'OrcamentoController@delete')->name('orcamento.delete');
 });
-

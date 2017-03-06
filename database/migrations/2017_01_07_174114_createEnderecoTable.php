@@ -26,11 +26,11 @@ class CreateEnderecoTable extends Migration
             $table->string('complemento');
             $table->string('tipo_endereco');
 
-            $table->foreign('cod_cl')->references('cod_cl')->on('cliente');
-            $table->foreign('cod_cd')->references('cod_cd')->on('cidade');
-            $table->foreign('cod_br')->references('cod_br')->on('bairro');
-            $table->foreign('cod_tl')->references('cod_tl')->on('tipo_logradouro');
-            $table->foreign('cod_lg')->references('cod_lg')->on('logradouro');
+            $table->foreign('cod_cl')->references('cod_cl')->on('cliente')->onDelete('cascade');
+            $table->foreign('cod_cd')->references('cod_cd')->on('cidade')->onDelete('cascade');
+            $table->foreign('cod_br')->references('cod_br')->on('bairro')->onDelete('cascade');
+            $table->foreign('cod_tl')->references('cod_tl')->on('tipo_logradouro')->onDelete('cascade');
+            $table->foreign('cod_lg')->references('cod_lg')->on('logradouro')->onDelete('cascade');
 
             $table->timestamps();
         });
