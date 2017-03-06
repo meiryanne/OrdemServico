@@ -44,8 +44,8 @@ Route::group(['prefix' => 'orcamento'], function (){
     Route::get('/', 'OrcamentoController@index')->name('orcamento.index');
     Route::get('/create', 'OrcamentoController@getCreate')->name('orcamento.getCreate');
     Route::post('/create', 'OrcamentoController@postCreate')->name('orcamento.postCreate');
-    Route::get('/add/{id}', 'OrcamentoController@add')->name('orcamento.getAdd');
-    Route::post('/add/{id}', 'OrcamentoController@add')->name('orcamento.postAdd');
+    Route::get('/add/{id}', 'OrcamentoController@getAdd')->name('orcamento.getAdd');
+    Route::post('/add/{id}', 'OrcamentoController@postAdd')->name('orcamento.postAdd');
     Route::put('/edit/{id}', 'OrcamentoController@putEdit')->name('orcamento.putEdit');
     Route::delete('/delete', 'OrcamentoController@delete')->name('orcamento.delete');
 });

@@ -29,6 +29,7 @@
                             <tr>
                                 <th style="width: 70px;">@orderButton(order-link,cod_or,#ID)</th>
                                 <th style="width: 70px;">Cliente</th>
+                                <th style="width: 70px;">Valor</th>
                                 <th style="width: 70px;">Data</th>
                                 <th style="width: 250px;">Ações</th>
                             </tr>
@@ -38,6 +39,7 @@
                                 <tr>
                                     <td>{{ $orcamento->cod_or }}</td>
                                     <td>{{ $orcamento->cod_cl }}</td>
+                                    <td>{{ $orcamento->valor }}</td>
                                     <td>{{ $orcamento->data }}</td>
                                     <td class="form-inline">
                                         <div class="form-group">

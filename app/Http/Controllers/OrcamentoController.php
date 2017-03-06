@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\ClienteRepository;
+use App\Repositories\ItemRepository;
 use App\Repositories\OrcamentoRepository;
 use App\Repositories\ProdutoServicoRepository;
 use Illuminate\Http\Request;
@@ -13,18 +14,21 @@ class OrcamentoController extends Controller
     private $orcamentoRepository;
     private $clienteRepository;
     private $produtoServicoRepository;
+    private $itemRepository;
 
     /**
      * Create a new controller instance.
      */
     public function __construct(OrcamentoRepository $orcamentoRepository,
                                 ClienteRepository $clienteRepository,
-                                ProdutoServicoRepository $produtoServicoRepository)
+                                ProdutoServicoRepository $produtoServicoRepository,
+                                ItemRepository $itemRepository)
     {
         $this->middleware('auth');
         $this->orcamentoRepository = $orcamentoRepository;
         $this->clienteRepository = $clienteRepository;
         $this->produtoServicoRepository = $produtoServicoRepository;
+        $this->itemRepository = $itemRepository;
     }
 
     /**
@@ -97,7 +101,8 @@ class OrcamentoController extends Controller
         try {
             $produtos = $this->produtoServicoRepository->lists('cod_ps', 'nome');
             return view('orcamento.add', [
-               'produtos' => $produtos
+                'produtos' => $produtos,
+                'id' => $id
             ]);
         } catch (\Exception $e) {
             if (env('APP_DEBUG') == true) {
@@ -105,6 +110,34 @@ class OrcamentoController extends Controller
             }
 
             return redirect()->back();
+        }
+    }
+
+    public function postAdd($id, Request $request)
+    {
+        try {
+            $produtoId = $request->get('produto');
+            $quantidade = $request->get('quantidade');
+
+            $produto = $this->produtoServicoRepository->find($produtoId);
+
+            $data = [
+                'cod_or' => $id,
+                'cod_ps' => $produtoId,
+                'quantidade' => (int) $quantidade,
+                'valor' => $produto->preco * (int) $quantidade,
+            ];
+
+            $item = $this->itemRepository->create($data);
+
+            $orcamento = $this->orcamentoRepository->find($id);
+            $this->orcamentoRepository->update([
+                'valor' => $orcamento->valor + $data['valor']
+            ], $id);
+
+            return redirect(route('orcamento.index'));
+        } catch (\Exception $e) {
+            throw $e;
         }
     }
 
