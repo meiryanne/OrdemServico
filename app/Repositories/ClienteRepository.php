@@ -33,8 +33,7 @@ class ClienteRepository extends Repository
         $pessoaFisicaRepository = new PessoaFisicaRepository(new PessoaFisica());
         $pessoaJuridicaRepository = new PessoaJuridicaRepository(new PessoaJuridica());
 
-        try{
-
+        try {
             $cliente    = $this->model->create(array('nome' => $data['nome']));
             $logradouro = $logradouroRepository->create(array('descricao' => $data['logradouro']));
             $bairro     = $bairroRepository->create(array('descricao' => $data['bairro']));
@@ -71,7 +70,7 @@ class ClienteRepository extends Repository
             $telefone = $telefoneRepository->create($telefoneData);
 
 
-            if($data['tipopessoa'] == 1){
+            if ($data['tipopessoa'] == 1) {
                 $pessoaJuridicaData = [
                     'cod_cl'              => $cliente->cod_cl,
                     'inscricao_estadual'  => $data['inscricaoestadual'],
@@ -91,9 +90,7 @@ class ClienteRepository extends Repository
             $pessoa = $pessoaFisicaRepository->create($pessoaData);
 
             DB::commit();
-
-        } catch (\Exception $e){
-
+        } catch (\Exception $e) {
             DB::rollback();
 
             if (env('APP_DEBUG') == true) {

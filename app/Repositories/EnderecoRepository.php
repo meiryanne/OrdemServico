@@ -15,5 +15,4 @@ class EnderecoRepository extends Repository
     {
         return $this->model->where('cod_cl', $id)->first();
     }
-
 }

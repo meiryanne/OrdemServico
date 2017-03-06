@@ -6,7 +6,6 @@ use Illuminate\Support\ServiceProvider;
 use Blade;
 use Request as AppRequest;
 
-
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -16,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Blade::directive('orderButton', function ($expression){
+        Blade::directive('orderButton', function ($expression) {
             $input = explode(',', $expression);
             $requestString = '?field='.$input[1].'&sort=asc';
 
@@ -26,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
             return $htmlOutput;
         });
 
-        Blade::directive('searchForm', function ($expression){
+        Blade::directive('searchForm', function ($expression) {
             $input = explode(',', $expression);
             $rota = route($input[2]);
             $html =

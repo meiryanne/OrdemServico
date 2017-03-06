@@ -8,7 +8,6 @@ use Auth;
 
 class ProdutoController extends Controller
 {
-
     private $produtoServicoRepository;
 
     /**
@@ -52,7 +51,6 @@ class ProdutoController extends Controller
         try {
             $this->produtoServicoRepository->create($request->all());
             return redirect(route('produto.index'));
-
         } catch (\Exception $e) {
             if (env('APP_DEBUG') == true) {
                 throw $e;
@@ -65,10 +63,10 @@ class ProdutoController extends Controller
     public function getEdit($id)
     {
         try {
-            return view('produto.edit',[
+            return view('produto.edit', [
                 'produto' => $this->produtoServicoRepository->find($id)
             ]);
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             if (env('APP_DEBUG') == true) {
                 throw $e;
             }
@@ -83,7 +81,6 @@ class ProdutoController extends Controller
             $data = $request->only($this->produtoServicoRepository->getFillableModelFields());
             $this->produtoServicoRepository->update($data, $id);
             return redirect(route('produto.index'));
-
         } catch (\Exception $e) {
             if (env('APP_DEBUG') == true) {
                 throw $e;
@@ -91,7 +88,6 @@ class ProdutoController extends Controller
 
             return redirect()->back()->withInput($request->all());
         }
-
     }
 
     /**

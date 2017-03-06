@@ -2,22 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\ClienteRepository;
 use App\Repositories\OrcamentoRepository;
+use App\Repositories\ProdutoServicoRepository;
 use Illuminate\Http\Request;
 use Auth;
 
 class OrcamentoController extends Controller
 {
-
     private $orcamentoRepository;
+    private $clienteRepository;
+    private $produtoServicoRepository;
 
     /**
      * Create a new controller instance.
      */
-    public function __construct(OrcamentoRepository $orcamentoRepository)
+    public function __construct(OrcamentoRepository $orcamentoRepository,
+                                ClienteRepository $clienteRepository,
+                                ProdutoServicoRepository $produtoServicoRepository)
     {
         $this->middleware('auth');
         $this->orcamentoRepository = $orcamentoRepository;
+        $this->clienteRepository = $clienteRepository;
+        $this->produtoServicoRepository = $produtoServicoRepository;
     }
 
     /**
@@ -38,21 +45,29 @@ class OrcamentoController extends Controller
      */
     public function getCreate()
     {
-        return view('produto.create');
+        return view('orcamento.create', [
+            'clientes' => $this->clienteRepository->lists('cod_cl', 'nome')
+        ]);
     }
 
     /**
      * Cria um novo cliente no banco
      * @param Request $request
-     * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
     public function postCreate(Request $request)
     {
         try {
-            $this->produtoServicoRepository->create($request->all());
-            return redirect(route('produto.index'));
+            $date = new \DateTime('NOW');
 
+            $orcamento = [
+                'cod_cl' => $request->get('cliente'),
+                'data' => $date->format('Y-m-d')
+            ];
+
+            $this->orcamentoRepository->create($orcamento);
+            return redirect(route('orcamento.index'));
         } catch (\Exception $e) {
             if (env('APP_DEBUG') == true) {
                 throw $e;
@@ -65,10 +80,10 @@ class OrcamentoController extends Controller
     public function getEdit($id)
     {
         try {
-            return view('produto.edit',[
+            return view('produto.edit', [
                 'produto' => $this->produtoServicoRepository->find($id)
             ]);
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             if (env('APP_DEBUG') == true) {
                 throw $e;
             }
@@ -77,21 +92,20 @@ class OrcamentoController extends Controller
         }
     }
 
-    public function putEdit($id, Request $request)
+    public function getAdd($id)
     {
         try {
-            $data = $request->only($this->produtoServicoRepository->getFillableModelFields());
-            $this->produtoServicoRepository->update($data, $id);
-            return redirect(route('produto.index'));
-
+            $produtos = $this->produtoServicoRepository->lists('cod_ps', 'nome');
+            return view('orcamento.add', [
+               'produtos' => $produtos
+            ]);
         } catch (\Exception $e) {
             if (env('APP_DEBUG') == true) {
                 throw $e;
             }
 
-            return redirect()->back()->withInput($request->all());
+            return redirect()->back();
         }
-
     }
 
     /**
@@ -104,8 +118,8 @@ class OrcamentoController extends Controller
     {
         try {
             if ($request->get('id')) {
-                $this->produtoServicoRepository->delete($request->get('id'));
-                return redirect(route('produto.index'));
+                $this->orcamentoRepository->delete($request->get('id'));
+                return redirect(route('orcamento.index'));
             }
 
             return redirect()->back();

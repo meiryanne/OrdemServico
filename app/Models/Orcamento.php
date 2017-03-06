@@ -17,4 +17,9 @@ class Orcamento extends BaseModel
     protected $searchable = [
         'valor' => '=',
     ];
+
+    public function cliente()
+    {
+        return $this->belongsTo('App\Models\Cliente');
+    }
 }

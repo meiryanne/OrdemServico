@@ -28,24 +28,25 @@
                             <thead>
                             <tr>
                                 <th style="width: 70px;">@orderButton(order-link,cod_or,#ID)</th>
-                                <th>@orderButton(order-link,cliente,Cliente)</th>
-                                <th>Data</th>
-                                <th>Valor</th>
+                                <th style="width: 70px;">Cliente</th>
+                                <th style="width: 70px;">Data</th>
                                 <th style="width: 250px;">Ações</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($orcamentos as $orcamento)
                                 <tr>
-                                    <td>{{ $orcamento->cod_ps }}</td>
+                                    <td>{{ $orcamento->cod_or }}</td>
+                                    <td>{{ $orcamento->cod_cl }}</td>
+                                    <td>{{ $orcamento->data }}</td>
                                     <td class="form-inline">
                                         <div class="form-group">
                                             <form method="get"
-                                                  action="{{ route('orcamento.getEdit', ['id' => $orcamento->cod_ps]) }}"
+                                                  action="{{ route('orcamento.getAdd', ['id' => $orcamento->cod_or]) }}"
                                                   role="form"
                                                   id="form-edit">
                                                 <button type="submit" class="btn bg-green btn-sm">
-                                                    <i class="fa fa-pencil"></i> Editar
+                                                    <i class="fa fa-pencil"></i> Adicionar items
                                                 </button>
                                             </form>
                                         </div>
@@ -57,7 +58,7 @@
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
                                                 <input type="hidden" name="id"
-                                                       value="{{ $orcamento->cod_ps }}">
+                                                       value="{{ $orcamento->cod_or }}">
                                                 <button type="submit" class="btn bg-red btn-sm">
                                                     <i class="fa fa-trash-o"></i> Excluir
                                                 </button>
